@@ -1,4 +1,3 @@
-import e from "express";
 import pool from "./pool.js";
 
 class DB {
@@ -75,6 +74,24 @@ class DB {
     }
   }
 
+  static async deleteAllGames() {
+    const { rows: result } = await pool.query(`DELETE FROM games RETURNING *;`);
+    if (result.length === 0) return null;
+    else return result;
+  }
+
+  static async deleteGameByTitle(title) {
+    const { rows: deletedGame } = await pool.query(
+      `DELETE FROM games
+       WHERE LOWER(title) = $1 
+       RETURNING *`,
+      [title]
+    );
+
+    if (deletedGame.length === 0) return null;
+    else return deletedGame;
+  }
+
   static async getAllGenres() {
     const { rows: genres } = await pool.query(`SELECT genre FROM genres;`);
     return genres;
@@ -92,11 +109,4 @@ class DB {
   }
 }
 
-console.log(
-  await DB.addGame({
-    title : "Nine sols",
-    developer: "red candle",
-    publisher : "annapurna",
-    genre : "horror"
-  })
-);
+console.log(await DB.deleteGameByTitle("grand theft auto 5"));
