@@ -1,3 +1,4 @@
+import e from "express";
 import pool from "./pool.js";
 
 class DB {
@@ -10,23 +11,92 @@ class DB {
     return games;
   }
 
-  static async getAllGenres() {
-    const { rows: genres } = await pool.query(`SELECT genre FROM genres;`);
-    return genres;
-  }
-
   static async getGameByTitle(title) {
     const { rows: game } = await pool.query(
-      `SELECT title, developer, publisher, genres.genre FROM games
+      `SELECT games.id, title, developer, publisher, genres.genre FROM games
        JOIN genres ON games.genre_id = genres.id 
        WHERE LOWER(title) = $1;`,
       [title.toLowerCase()]
     );
 
-    return game[0];
+    if (game.length !== 0) return game[0];
+    else if (game.length === 0) return null;
+  }
+
+  static async addGame({ title, developer, publisher, genre }) {
+    const gameAlreadyInDatabase = await this.getGameByTitle(title);
+    const genreId = await this.getGenreIdByName(genre);
+
+    if (gameAlreadyInDatabase !== null || genreId === null) return null;
+    else if (gameAlreadyInDatabase === null && genreId) {
+      const { rows: game } = await pool.query(
+        `INSERT INTO games (title, developer, publisher, genre_id) 
+        VALUES ($1, $2, $3, $4)
+         RETURNING *`,
+        [title, developer, publisher, genreId]
+      );
+
+      return game;
+    }
+  }
+
+  static async editGame({
+    oldTitle,
+    newTitle,
+    newDeveloper,
+    newPublisher,
+    newGenre,
+  }) {
+    const oldGame = await this.getGameByTitle(oldTitle);
+    const alreadyExistingNewGame = await this.getGameByTitle(newTitle);
+    const newGenreId = await this.getGenreIdByName(newGenre);
+
+    if (oldGame === null || newGenreId === null) return null;
+    else if (
+      alreadyExistingNewGame !== null &&
+      alreadyExistingNewGame?.id !== oldGame.id
+    )
+      return "This game already exists";
+    else {
+      const { rows: newGame } = await pool.query(
+        `UPDATE games SET title = $1, developer = $2, publisher = $3, genre_id = $4
+        WHERE LOWER(title) = $5
+        RETURNING *;`,
+        [
+          newTitle,
+          newDeveloper,
+          newPublisher,
+          newGenreId,
+          oldTitle.toLowerCase(),
+        ]
+      );
+
+      return newGame[0];
+    }
+  }
+
+  static async getAllGenres() {
+    const { rows: genres } = await pool.query(`SELECT genre FROM genres;`);
+    return genres;
+  }
+
+  static async getGenreIdByName(genre) {
+    const { rows: genreId } = await pool.query(
+      `SELECT id FROM genres
+       WHERE LOWER(genre) = $1`,
+      [genre.toLowerCase()]
+    );
+
+    if (genreId.length !== 0) return genreId[0].id;
+    else return null;
   }
 }
 
-console.log(await DB.getAllGames());
-console.log(await DB.getAllGenres());
-console.log(await DB.getGameByTitle("DeAD SpacE"));
+console.log(
+  await DB.addGame({
+    title : "Nine sols",
+    developer: "red candle",
+    publisher : "annapurna",
+    genre : "horror"
+  })
+);
