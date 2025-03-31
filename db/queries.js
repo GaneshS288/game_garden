@@ -92,6 +92,19 @@ class DB {
     else return deletedGame;
   }
 
+  static async deleteGameByGenre(genre) {
+    const { rows: deletedGames } = await pool.query(
+      `DELETE FROM games
+       USING genres
+       WHERE games.genre_id = genres.id AND LOWER(genres.genre) = $1
+       RETURNING games.id, games.title, games.developer, games.publisher, games.genre_id, genres.genre;`,
+      [genre.toLowerCase()]
+    );
+
+    if (deletedGames.length === 0) return null;
+    else return deletedGames;
+  }
+
   static async getAllGenres() {
     const { rows: genres } = await pool.query(`SELECT genre FROM genres;`);
     return genres;
@@ -109,4 +122,6 @@ class DB {
   }
 }
 
-console.log(await DB.deleteGameByTitle("grand theft auto 5"));
+
+
+console.log(await DB.deleteGameByGenre('horror'));
