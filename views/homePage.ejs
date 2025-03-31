@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --blue-600: #155dfc;
+        --neutral-100: #f5f5f5;
+        --zinc-950: #09090b;
+        --blue-800: #193cb8;
+        --blue-400: #51a2ff;
+      }
+
+      body {
+        display: flex;
+        flex-flow: column wrap;
+        gap: 1em;
+        margin: 0;
+        min-height: 100vh;
+      }
+
+      .top-container {
+        background-color: var(--zinc-950);
+        color: var(--neutral-100);
+        padding: 1em;
+      }
+
+      .main-title {
+        font-size: 2rem;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      .welcome-text-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .welcome-text {
+        font-size: 1.4rem;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        max-width: 50ch;
+      }
+
+
+      a {
+        font-size: 1.2rem;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-weight: 700;
+        text-decoration: none;
+        padding: 1em 2em;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        background-color: var(--blue-600);
+        color: var(--neutral-100);
+        border: 1px solid var(--zinc-950);
+        border-radius: 5px;
+        box-shadow: 1px 1px var(--blue-800);
+        align-self: center;
+        transition: transform 400ms 400ms ease-in-out;
+      }
+
+      a:hover {
+        transform: scale(1.05);
+        background-color: var(--blue-800);
+      }
+
+      a:active {
+        background-color: var(--blue-400);
+      }
+    </style>
+    <title>Game Garden</title>
+  </head>
+  <body>
+    <div class="top-container">
+        <header>
+            <h1 class="main-title">Game Garden</h1>
+        </header>
+        <main class="welcome-text-container">
+          <p class="welcome-text">
+            Welcome to Game Garden! 🎮🌿 Discover the world of gaming at your
+            fingertips. Our extensive database offers detailed insights into your
+            favorite games, including information about developers, publishers, and
+            more. Whether you're reminiscing about classics or exploring the latest
+            releases, Game Garden is your go-to hub for gaming knowledge.
+          </p>
+          <p class="welcome-text">
+            Start exploring now and let your gaming adventure blossom!
+          </p>
+        </main>
+    </div>
+
+    <a href="./games/all">Start Exploring</a>
+  </body>
+</html>

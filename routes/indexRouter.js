@@ -11,7 +11,7 @@ import { Router } from "express";
 const indexRouter = new Router();
 
 indexRouter.get("/", (req, res) => {
-    res.status(200).send("welcome");
+    res.status(200).render("homePage");
 })
 
 export default indexRouter;
