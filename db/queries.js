@@ -106,7 +106,10 @@ class DB {
   }
 
   static async getAllGenres() {
-    const { rows: genres } = await pool.query(`SELECT genre FROM genres;`);
+    const { rows: genres } = await pool.query({
+      text: `SELECT genre FROM genres;`,
+      rowMode: "array",
+    });
     return genres;
   }
 
@@ -122,6 +125,4 @@ class DB {
   }
 }
 
-
-
-console.log(await DB.deleteGameByGenre('horror'));
+export default DB;
