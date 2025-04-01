@@ -22,6 +22,18 @@ class DB {
     else if (game.length === 0) return null;
   }
 
+  static async getGamesByGenre(genre) {
+    const { rows: games } = await pool.query(
+      `SELECT title, developer, publisher, genres.genre FROM games
+       JOIN genres ON games.genre_id = genres.id
+       WHERE LOWER(genres.genre) = $1;`,
+      [genre.toLowerCase()]
+    );
+
+    if (games.length !== 0) return games;
+    else if (games.length === 0) return null;
+  }
+
   static async addGame({ title, developer, publisher, genre }) {
     const gameAlreadyInDatabase = await this.getGameByTitle(title);
     const genreId = await this.getGenreIdByName(genre);
@@ -110,7 +122,7 @@ class DB {
       text: `SELECT genre FROM genres;`,
       rowMode: "array",
     });
-    return genres;
+    return genres.map((genre) => genre[0]);
   }
 
   static async getGenreIdByName(genre) {
