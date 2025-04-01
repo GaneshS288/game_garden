@@ -9,9 +9,24 @@ const getAllGames = asyncHandler(async (req, res, next) => {
     .status(200)
     .render("gamesTable", {
       games: allGames,
-      genres: ["all", ...allGenres],
-      selectedGenre: "all",
+      genres: ["All", ...allGenres],
+      selectedGenre: "All",
     });
 });
 
-export { getAllGames };
+const getGamesByGenre = asyncHandler(async (req, res, next) => {
+    const selectedGenre = req.params.genre;
+    const games = await DB.getGamesByGenre(selectedGenre);
+    const allGenres = await DB.getAllGenres();
+    
+
+    res
+    .status(200)
+    .render("gamesTable", {
+      games: games,
+      genres: ["All", ...allGenres],
+      selectedGenre: selectedGenre,
+    });
+})
+
+export { getAllGames, getGamesByGenre };
