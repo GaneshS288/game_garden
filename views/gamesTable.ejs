@@ -80,8 +80,9 @@
         padding: 1em;
       }
 
-      .delete-item-button {
+      .delete-item-button, .delete-button {
         padding: 7px 20px;
+        text-decoration: none;
         font-weight: bold;
         width: 90px;
         background-color: white;
@@ -107,6 +108,12 @@
         font-weight: 700;
         border-radius: 5px;
         background-color: white;
+      }
+
+      .delete-cancel-button {
+        padding: 7px 20px;
+        margin-left: 1em;
+        color: var(--zinc-950);
       }
 
       .add-game-button {
@@ -151,6 +158,7 @@
     </header>
 
     <main>
+      <dialog class="delete-dialog"></dialog>
       <table class="games-table">
         <caption>
           <%= selectedGenre %> games
@@ -179,10 +187,72 @@
 
       <div class="primary-buttons-container">
         <a href="/games/new" class="add-game-button">Add New</a>
-        <button type="button" class="delete-all-button">Delete All</button>
+        <button type="button" class="delete-all-button" data-genre="<%= selectedGenre %>">Delete All</button>
       </div>
 
       <script>
+        const dialog = document.querySelector(".delete-dialog");
+        const deleteTableItemButtons = document.querySelectorAll(".delete-item-button");
+        const deleteAllButton = document.querySelector(".delete-all-button");
+
+        deleteTableItemButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const title = button.dataset.title;
+          dialog.showModal();
+          const deleteWarning = `Are you sure you want to delete ${title} from database`;
+          const deleteWarningPara = document.createElement("p");
+          deleteWarningPara.classList.add("warning-paragraph");
+          deleteWarningPara.textContent = deleteWarning;
+
+          const deleteButton = document.createElement("a");
+          deleteButton.setAttribute("href", encodeURI(`/games/delete/${title}`));
+          deleteButton.classList.add("delete-button");
+          deleteButton.textContent = "Delete";
+          deleteButton.addEventListener("click", () => {
+            Array.from(dialog.children).forEach((child) => child.remove())
+            dialog.close();
+          });
+
+          const cancelButton = document.createElement("button");
+          cancelButton.textContent = "Cancel";
+          cancelButton.classList.add("delete-cancel-button");
+          cancelButton.addEventListener("click", () => {
+            Array.from(dialog.children).forEach((child) => child.remove())
+            dialog.close();
+          });
+
+          dialog.append(deleteWarningPara, deleteButton, cancelButton);
+          })
+        }) 
+
+        deleteAllButton.addEventListener("click", (e) => {
+          const genre = e.target.dataset.genre;
+
+          dialog.showModal();
+          const deleteWarning = `Are you sure you want to delete ${genre === "All" ? genre : `all ${genre}`} games`;
+          const deleteWarningPara = document.createElement("p");
+          deleteWarningPara.classList.add("warning-paragraph");
+          deleteWarningPara.textContent = deleteWarning;
+
+          const deleteButton = document.createElement("a");
+          deleteButton.setAttribute("href", encodeURI(`/games/delete/${genre}`));
+          deleteButton.classList.add("delete-button");
+          deleteButton.textContent = "Delete";
+          deleteButton.addEventListener("click", () => {
+            Array.from(dialog.children).forEach((child) => child.remove())
+            dialog.close();
+          });
+
+          const cancelButton = document.createElement("button");
+          cancelButton.textContent = "Cancel";
+          cancelButton.classList.add("delete-cancel-button");
+          cancelButton.addEventListener("click", () => {
+            Array.from(dialog.children).forEach((child) => child.remove())
+            dialog.close();
+          });
+
+          dialog.append(deleteWarningPara, deleteButton, cancelButton);
+        })
       </script>
     </main>
   </body>
