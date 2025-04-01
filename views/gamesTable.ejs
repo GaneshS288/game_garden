@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --blue-600: #155dfc;
+        --neutral-100: #f5f5f5;
+        --zinc-950: #09090b;
+        --blue-800: #193cb8;
+        --blue-400: #51a2ff;
+        --red-400: #ff6467;
+        --red-600: #e7000b;
+        --red-900: #82181a;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+      }
+
+      ul {
+        list-style: none;
+        display: flex;
+        gap: 1em;
+      }
+
+      ul > li {
+        border: 1px solid var(--blue-600);
+        border-bottom: none;
+        padding: 1em 1em 0;
+        border-radius: 5px 5px 0 0;
+      }
+
+      .selected-list-item {
+        border-color: var(--blue-800);
+        border-width: 2px;
+        transform: translateY(-5px);
+      }
+
+      .genre-link {
+        text-decoration: none;
+        color: var(--blue-600);
+        font-size: 1.2rem;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+
+      .selected-genre-link {
+        font-weight: bold;
+        color: var(--blue-800);
+        font-size: 1.4rem;
+      }
+
+      main {
+        display: grid;
+        justify-content: center;
+      }
+
+      .games-table {
+        border: 2px solid var(--zinc-950);
+        border-collapse: collapse;
+        color: var(--zinc-950);
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+
+      .games-table > caption {
+        padding-bottom: 1em;
+        text-align: start;
+        color: var(--zinc-950);
+        font-size: 1.2em;
+        font-weight: 700;
+      }
+
+      .games-table th,
+      .games-table td {
+        border: 1px solid var(--zinc-950);
+        padding: 1em;
+      }
+
+      .delete-item-button {
+        padding: 7px 20px;
+        font-weight: bold;
+        width: 90px;
+        background-color: white;
+        color: var(--red-600);
+        border-radius: 5px;
+        border: 1px solid var(--red-600);
+      }
+
+      .delete-item-button:hover {
+        color: var(--red-900);
+        border-color: var(--red-900);
+      }
+
+      .primary-buttons-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 2em;
+        padding:1em;
+      }
+
+      button {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight: 700;
+        border-radius: 5px;
+        background-color: white;
+      }
+
+      .add-game-button {
+        color: var(--blue-600);
+        text-decoration: none;
+        font-weight: 700;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        padding: 10px 20px;
+        border: 2px solid var(--blue-600);
+        border-radius: 5px;
+      }
+
+      .add-game-button:hover  {
+        color: var(--blue-800);
+        border-color: var(--blue-800);
+      }
+
+      .delete-all-button {
+        color: var(--red-600);
+        padding: 10px 20px;
+        border: 2px solid var(--red-600);
+      }
+
+      .delete-all-button:hover {
+        color: var(--red-900);
+        border-color: var(--red-900);
+      }
+    </style>
+    <title>Games</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+            <% for(let i = 0; i < genres.length; i++) {%>
+                <li class="<%= genres[i] === selectedGenre ? "selected-list-item" : "" %>">
+                    <a href=<%= `/games/${genres[i]}` %> class="genre-link <%= genres[i] === selectedGenre ? "selected-genre-link" : "" %>" ><%= genres[i] %></a>
+                </li>
+            <% } %>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <table class="games-table">
+        <caption>
+          <%= selectedGenre %> games
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Developer</th>
+            <th scope="col">Publisher</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Delete Button</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% for(let i =0; i < games.length; i++) { %>
+                <tr>
+                    <th scope="row"><%= games[i].title %></th>
+                    <td><%= games[i].developer %></td>
+                    <td><%= games[i].publisher %></td>
+                    <td><%= games[i].genre %></td>
+                    <td><button class="delete-item-button" data-title="<%= games[i].title %>">Delete</button></td>
+                </tr>
+            <% } %>
+          <tr>
+            <th scope="row">Dead Space</th>
+            <td>Vivandi Games</td>
+            <td>Electronic Arts</td>
+            <td>Horror</td>
+            <td><button class="delete-item-button">Delete</button></td>
+          </tr>
+
+          <tr>
+            <th scope="row">Grand Theft Auto 5</th>
+            <td>Rockstar North</td>
+            <td>Rockstar Games</td>
+            <td>Open World</td>
+            <td><button class="delete-item-button">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="primary-buttons-container">
+        <a href="/games/new" class="add-game-button">Add New</a>
+        <button type="button" class="delete-all-button">Delete All</button>
+      </div>
+
+      <script>
+      </script>
+    </main>
+  </body>
+</html>
