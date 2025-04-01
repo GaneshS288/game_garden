@@ -198,6 +198,7 @@
         deleteTableItemButtons.forEach((button) => {
           button.addEventListener("click", () => {
             const title = button.dataset.title;
+            const genre = deleteAllButton.dataset.genre;
           dialog.showModal();
           const deleteWarning = `Are you sure you want to delete ${title} from database`;
           const deleteWarningPara = document.createElement("p");
@@ -205,7 +206,7 @@
           deleteWarningPara.textContent = deleteWarning;
 
           const deleteButton = document.createElement("a");
-          deleteButton.setAttribute("href", encodeURI(`/games/delete/${title}`));
+          deleteButton.setAttribute("href", encodeURI(`/games/${genre}/delete/${title}`));
           deleteButton.classList.add("delete-button");
           deleteButton.textContent = "Delete";
           deleteButton.addEventListener("click", () => {
@@ -235,7 +236,7 @@
           deleteWarningPara.textContent = deleteWarning;
 
           const deleteButton = document.createElement("a");
-          deleteButton.setAttribute("href", encodeURI(`/games/delete/${genre}`));
+          deleteButton.setAttribute("href", encodeURI(`/games/${genre}/delete`));
           deleteButton.classList.add("delete-button");
           deleteButton.textContent = "Delete";
           deleteButton.addEventListener("click", () => {
