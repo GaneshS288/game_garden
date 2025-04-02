@@ -97,7 +97,7 @@ class DB {
       `DELETE FROM games
        WHERE LOWER(title) = $1 
        RETURNING *`,
-      [title]
+      [title.toLowerCase()]
     );
 
     if (deletedGame.length === 0) return null;
