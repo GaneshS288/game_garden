@@ -3,7 +3,9 @@ import asyncHandler from "../lib/asyncHandler.js";
 
 const deleteAllGames = asyncHandler(async (req, res, next) => {
     const title = req.params.title;
-    res.send(title);
+    const deletedGames = await DB.deleteAllGames();
+
+    res.status(204).redirect("/games/all");
 })
 
 const deleteGameByTitle = asyncHandler(async (req, res, next) => {
@@ -15,4 +17,4 @@ const deleteGameByTitle = asyncHandler(async (req, res, next) => {
         res.status(204).redirect("/games/all");
 })
 
-export { deleteGameByTitle };
+export { deleteGameByTitle, deleteAllGames };
