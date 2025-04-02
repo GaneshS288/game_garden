@@ -18,7 +18,45 @@ const gameData = [
     publisher: "Rockstar Games",
     genre: "Open World",
   },
+  {
+    title: "The Witcher 3",
+    developer: "CD Projekt Red",
+    publisher: "CD Projekt",
+    genre: "Open World"
+  },
+  {
+    title: "Nine Sols",
+    developer: "Red Candle Games",
+    publisher: "Red Candle Games",
+    genre: "Metroidvania"
+  },
+  {
+    title: "Castlevania Symphony of The Night",
+    developer: "Konami Tokyo",
+    publisher: "Konami",
+    genre: "Metroidvania"
+  },
+  {
+    title: "Alien Isolation",
+    developer: "Creative Assembley",
+    publisher: "Sega",
+    genre: "Horror"
+  },
+  {
+    title: "Hollow Knight",
+    developer: "Team Cherry",
+    publisher: "Team Cherry",
+    genre: "Metroidvania"
+  },
+  {
+    title: "UltraKill",
+    developer: "Aris 'Hakita' Patala",
+    publisher: "New Blood Interactive",
+    genre: "Shooter"
+  }
 ];
+
+const genres = ["Open World", "Horror", "Shooter", "Metroidvania"];
 
 const TABLESQL = `
 CREATE TABLE IF NOT EXISTS genres (
@@ -41,9 +79,14 @@ async function populateDB() {
       const client = new Client(connectionString);
       await client.connect();
       await client.query(TABLESQL);
+
+      for(const genre of genres) {
+        await client.query(`INSERT INTO genres (genre) VALUES($1)`, [genre]);
+      }
+
       for (const data of gameData) {
         const { rows: genreId } = await client.query(
-          `INSERT INTO genres (genre) VALUES ($1) RETURNING id`,
+          `SELECT id FROM genres WHERE genre = $1`,
           [data.genre]
         );
 
