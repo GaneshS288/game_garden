@@ -104,7 +104,7 @@ class DB {
     else return deletedGame;
   }
 
-  static async deleteGameByGenre(genre) {
+  static async deleteGamesByGenre(genre) {
     const { rows: deletedGames } = await pool.query(
       `DELETE FROM games
        USING genres
