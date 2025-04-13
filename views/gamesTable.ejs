@@ -159,37 +159,41 @@
 
     <main>
       <dialog class="delete-dialog"></dialog>
-      <table class="games-table">
-        <caption>
-          <%= selectedGenre %> games
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Developer</th>
-            <th scope="col">Publisher</th>
-            <th scope="col">Genre</th>
-            <th scope="col">Edit Game</th>
-            <th scope="col">Delete Button</th>
-          </tr>
-        </thead>
-        <tbody>
-            <% for(let i =0; i < games.length; i++) { %>
-                <tr>
-                    <th scope="row"><%= games[i].title %></th>
-                    <td><%= games[i].developer %></td>
-                    <td><%= games[i].publisher %></td>
-                    <td><%= games[i].genre %></td>
-                    <td><a href="/games/edit/<%= games[i].title %>" class="edit-game-button">Edit</a></td>
-                    <td><button class="delete-item-button" data-title="<%= games[i].title %>">Delete</button></td>
-                </tr>
-            <% } %>
-        </tbody>
-      </table>
+      <% if(games) { %>
+        <table class="games-table">
+          <caption>
+            <%= selectedGenre %> games
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Developer</th>
+              <th scope="col">Publisher</th>
+              <th scope="col">Genre</th>
+              <th scope="col">Edit Game</th>
+              <th scope="col">Delete Button</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% for(let i =0; i < games.length; i++) { %>
+                  <tr>
+                      <th scope="row"><%= games[i].title %></th>
+                      <td><%= games[i].developer %></td>
+                      <td><%= games[i].publisher %></td>
+                      <td><%= games[i].genre %></td>
+                      <td><a href="/games/edit/<%= games[i].title %>" class="edit-game-button">Edit</a></td>
+                      <td><button class="delete-item-button" data-title="<%= games[i].title %>">Delete</button></td>
+                  </tr>
+              <% } %>
+          </tbody>
+        </table>
+        <% } %>
 
       <div class="primary-buttons-container">
         <a href="/games/new" class="add-game-button">Add New</a>
+        <% if(games) { %>
         <button type="button" class="delete-all-button" data-genre="<%= selectedGenre %>">Delete All</button>
+        <% } %>
       </div>
 
       <script>
