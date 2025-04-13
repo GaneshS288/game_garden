@@ -6,6 +6,7 @@ import {
   deleteGamesByGenre,
 } from "../controllers/deleteGames.js";
 import { addGame, renderAddGameForm } from "../controllers/addGames.js";
+import { renderEditGameForm } from "../controllers/editGames.js";
 import { body } from "express-validator";
 
 const gamesRouter = new Router();
@@ -16,6 +17,8 @@ gamesRouter.get("/new", renderAddGameForm);
 gamesRouter.get("/all", getAllGames);
 gamesRouter.get("/all/delete", deleteAllGames);
 gamesRouter.get("/:genre", getGamesByGenre);
+gamesRouter.get("/edit/:title", renderEditGameForm);
+//below get routes are used for deleting games
 gamesRouter.get("/:genre/delete", deleteGamesByGenre);
 gamesRouter.get("/:genre/delete/:title", deleteGameByTitle);
 

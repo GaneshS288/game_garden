@@ -116,7 +116,7 @@
         color: var(--zinc-950);
       }
 
-      .add-game-button {
+      .add-game-button, .edit-game-button {
         color: var(--blue-600);
         text-decoration: none;
         font-weight: 700;
@@ -169,6 +169,7 @@
             <th scope="col">Developer</th>
             <th scope="col">Publisher</th>
             <th scope="col">Genre</th>
+            <th scope="col">Edit Game</th>
             <th scope="col">Delete Button</th>
           </tr>
         </thead>
@@ -179,6 +180,7 @@
                     <td><%= games[i].developer %></td>
                     <td><%= games[i].publisher %></td>
                     <td><%= games[i].genre %></td>
+                    <td><a href="/games/edit/<%= games[i].title %>" class="edit-game-button">Edit</a></td>
                     <td><button class="delete-item-button" data-title="<%= games[i].title %>">Delete</button></td>
                 </tr>
             <% } %>
