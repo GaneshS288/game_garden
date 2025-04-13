@@ -10,4 +10,22 @@ const renderEditGameForm = asyncHandler(async (req, res, next) => {
   res.status(200).render("editGameForm", { ...game, genres: allGenres });
 });
 
-export { renderEditGameForm };
+const editGame = asyncHandler(async (req, res, next) => {
+  const result = validationResult(req);
+  
+  if (result.isEmpty()) {
+    const { oldTitle, newTitle, newDeveloper, newPublisher, newGenre } = req.body;
+    const editedGame = await DB.editGame({oldTitle, newTitle, newDeveloper, newPublisher, newGenre});
+
+    if (editedGame === null)
+      res.send("No game with this title was found");
+    else
+      res.redirect("/games/all");
+  }
+  else {
+    console.log(result.array());
+    res.send(result.array()[0].message);
+  }
+})
+
+export { renderEditGameForm, editGame };
