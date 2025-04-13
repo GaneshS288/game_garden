@@ -18,7 +18,7 @@ const addGame = asyncHandler(async (req, res, next) => {
   }
   else {
     console.log(result.array());
-    res.send(result.array()[0].message);
+    res.render( "errorPage", {errCode : 400, errMessage: result.array()[0].message })
   }
 })
 
