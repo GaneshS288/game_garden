@@ -19,6 +19,8 @@ const editGame = asyncHandler(async (req, res, next) => {
 
     if (editedGame === null)
       res.send("No game with this title was found");
+    else if(editedGame === "This game already exists")
+      res.render("errorPage", {errCode : 400, errMessage: "This game already exists"});
     else
       res.redirect("/games/all");
   }

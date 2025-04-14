@@ -14,5 +14,5 @@ app.use(express.static(assetsPath));
 
 app.use("/", indexRouter);
 app.use("/games", gamesRouter)
-app.get("/*", (req, res) => res.render( "errorPage", {errCode : 404, errMessag: "This page doesn't exist" }));
+app.get("/*", (req, res) => res.render( "errorPage", {errCode : 404, errMessage: "This page doesn't exist" }));
 app.listen(8080, () => console.log("app listening at port 8080"));
